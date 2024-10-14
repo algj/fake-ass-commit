@@ -1,0 +1,12 @@
+.vscode
+/.deno/
+/.deps/
+/target/
+.env
+node_modules/
+.tsbuildinfo
+deno_lint_output.json
+.DS_Store
+.idea/
+*.sublime-workspace
+*.subline-project
