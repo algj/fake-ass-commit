@@ -7,10 +7,10 @@ import { exec } from "https://deno.land/x/exec@0.0.5/mod.ts";
 
 async function generateCommits(commitCount: number, commitMessage: string, customDate: string | Date, filename: string) {
     for (let i = 0; i < commitCount; i++) {
-        await Deno.writeTextFile(filename, new Date(customDate).toString());
+        await Deno.writeTextFile(filename, new Date(customDate).toString() + " #" + i);
         await exec("git add .");
         customDate = new Date(customDate);
-        await exec(`git commit -m "${commitMessage}" --date "${getFormattedDate(customDate)}"`);
+        await exec(`git commit -m "${commitMessage}" --date "${getFormattedDate(customDate)} 12:00"`);
         console.log(`Committed: ${commitMessage} on ${customDate}`);
     }
 }
