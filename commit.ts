@@ -183,6 +183,10 @@ for (const date = new Date(fromDate); date <= toDate; date.setUTCDate(date.getUT
         const y = ((sin(x * 3) * 1 + sin(x * 5) * 5 + sin(x / 7) * 2 + sin(x / 11) * 2 + sin(x / 3.2316) * 7 + sin(x / 7.432) * 6 + sin(x / 3) * 13 + sin(x / 4) * 16) / 52 / 2 + 0.5) * (sin(x) + sin(x * 3.14) + 2) / 4;
         commitCount = getClosestElement(frequency.sort((a, b) => b - a), sigmoid(y)) ?? 1;
     }
+    if (algo == "cycle") {
+        const x = dateIndex(date);
+        commitCount = frequency[x % frequency.length];
+    }
     if (weekDays.includes(date.getDay())) {
         await generateCommits(commitCount, message, date, filename);
     }
