@@ -14,6 +14,7 @@ Recruiters only look at GitHub contributions to rate your skills. It's unfair fo
 deno run --allow-run --allow-write commit.ts --run
 ```
 
+```
 Usage: deno run --allow-run --allow-write commit.ts
   --run|-r
   --filename|-f <filename='dummy.txt'>
@@ -23,6 +24,7 @@ Usage: deno run --allow-run --allow-write commit.ts
   --weekDays|-w <list=1,2,3,4,5)>
   --frequency|-fq <frequency=1-4>
   --algorithm|-a <algorithm='smart'|'random'|'cycle'>
+```
 
 ```sh
 deno run --allow-run --allow-write commit.ts --run --filename silly.md --message "Hello world!!!" --fromDate 2024-01-01 --toDate 2024-02-01 --weekDays 1-5,7 --frequency 1-5 --algorithm smart
