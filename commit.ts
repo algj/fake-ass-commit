@@ -42,22 +42,23 @@ async function getMostRecentCommitDate() {
 }
 
 
+if (Deno.args.length == 0) {
+    console.log("Usage: deno run --allow-run --allow-write commit.ts --run|-r --filename|-f <filename='dummy.txt'> --message|-m <message=Hello> --fromDate|-fd <js-date=last-commit> --toDate|-td <js-date=today> --weekDays|-w <list=1,2,3,4,5)> --frequency|-fq <frequency=1-4> --algorithm|-a <algorithm='smart'|'random'|'cycle'>\n" +
+        "Note: We use sane defaults, no need for any arguments except '-r'");
+    Deno.exit(0);
+}
+
 let filename = "dummy.txt";
 let message = "Hello";
 let fromDate = await getMostRecentCommitDate().catch(err => {
     console.error("Failed to get most recent commit. Are you in a git repo?", err);
     Deno.exit(1);
 });
+fromDate.setDate(fromDate.getDate() + 1); // DST-safe day forward
 let toDate = new Date();
 let weekDays = [1, 2, 3, 4, 5];
 let frequency = [1, 2, 3, 4];
 let algo: "smart" | "random" | "cycle" = "smart";
-
-if (Deno.args.length == 0) {
-    console.log("Usage: deno run --allow-run --allow-write commit.ts --run|-r --filename|-f <filename='dummy.txt'> --message|-m <message=Hello> --fromDate|-fd <js-date=last-commit> --toDate|-td <js-date=today> --weekDays|-w <list=1,2,3,4,5)> --frequency|-fq <frequency=1-4> --algorithm|-a <algorithm='smart'|'random'|'cycle'>\n" +
-        "Note: We use sane defaults, no need for any arguments except '-r'");
-    Deno.exit(0);
-}
 
 function parseNumberRange(input: string): number[] {
     return input.split(',').flatMap(part =>
