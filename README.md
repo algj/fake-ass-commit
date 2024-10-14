@@ -29,3 +29,7 @@ Usage: deno run --allow-run --allow-write commit.ts
 ```sh
 deno run --allow-run --allow-write commit.ts --run --filename silly.md --message "Hello world!!!" --fromDate 2024-01-01 --toDate 2024-02-01 --weekDays 1-5,7 --frequency 1-5 --algorithm smart
 ```
+
+## Disclaimer
+
+I tested it out, but ehhhh, I'd rather not fake things. So I didn't really test it out properly. My bad! So don't use this shitty script :p
