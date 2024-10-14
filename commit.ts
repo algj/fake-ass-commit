@@ -127,7 +127,7 @@ for (let i = 0; i < Deno.args.length;) {
             break;
         case "--weekdays":
         case "-w":
-            weekDays = parseNumberRange(Deno.args[i++]);
+            weekDays = parseNumberRange(Deno.args[i++]).map(i => i % 7);
             if (weekDays.length == 0) {
                 console.error(`Warning: Your '--weekDays' seems a bit empty, don't you think? I'll just quit if you don't need any commits on any days whatsoever.`);
                 Deno.exit(0);
@@ -166,12 +166,12 @@ function dateIndex(date: Date) {
 }
 
 function sigmoid(x: number) {
-    return Math.pow(3, x) * (x * (x * 6 - 15) + 10);
+    return Math.pow(x, 3) * (x * (x * 6 - 15) + 10);
 }
 
 let commitsDone = 0;
 let index = 0;
-console.log("Using " + algo + " algorithm.");
+console.log("Using algorithm=" + algo + "; frequency=" + frequency.join(","));
 for (const date = new Date(fromDate); date <= toDate; date.setUTCDate(date.getUTCDate() + 1)) { // f*ck you, daylight saving time
     let commitCount = 1;
     if (algo == "random") {
@@ -181,7 +181,8 @@ for (const date = new Date(fromDate); date <= toDate; date.setUTCDate(date.getUT
         const x = dateIndex(date);
         const sin = Math.sin; // so I could copy it to Desmos v
         const y = ((sin(x * 3) * 1 + sin(x * 5) * 5 + sin(x / 7) * 2 + sin(x / 11) * 2 + sin(x / 3.2316) * 7 + sin(x / 7.432) * 6 + sin(x / 3) * 13 + sin(x / 4) * 16) / 52 / 2 + 0.5) * (sin(x) + sin(x * 3.14) + 2) / 4;
-        commitCount = getClosestElement(frequency.sort((a, b) => b - a), sigmoid(y)) ?? 1;
+        const variableRandomness = Math.random();
+        commitCount = getClosestElement(frequency.sort((a, b) => a - b), sigmoid(y) * variableRandomness + Math.random() * (1 - variableRandomness)) ?? 1;
     }
     if (algo == "cycle") {
         const x = dateIndex(date);
